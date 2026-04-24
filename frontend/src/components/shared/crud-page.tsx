@@ -40,15 +40,15 @@ interface ModalProps {
 function Modal({ isOpen, onClose, title, children }: ModalProps) {
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md animate-fade-in" onClick={onClose}>
-      <div className="w-full max-w-xl bg-white border border-slate-100 rounded-[2.5rem] shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
-        <div className="flex items-center justify-between px-10 py-8 border-b border-slate-50">
-          <h3 className="text-lg font-black tracking-tight text-slate-900">{title}</h3>
-          <button onClick={onClose} className="p-3 rounded-2xl hover:bg-slate-50 text-slate-400 hover:text-slate-900 transition-all">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4 bg-slate-900/40 backdrop-blur-md animate-fade-in" onClick={onClose}>
+      <div className="w-full max-w-xl bg-white border border-slate-100 rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between px-6 md:px-10 py-6 md:py-8 border-b border-slate-50 shrink-0">
+          <h3 className="text-base md:text-lg font-black tracking-tight text-slate-900">{title}</h3>
+          <button onClick={onClose} className="p-2 md:p-3 rounded-xl md:rounded-2xl hover:bg-slate-50 text-slate-400 hover:text-slate-900 transition-all">
             <X size={20} />
           </button>
         </div>
-        <div className="p-10">
+        <div className="p-6 md:p-10 overflow-y-auto custom-scrollbar">
           {children}
         </div>
       </div>
@@ -185,34 +185,34 @@ export default function CrudPage({ title, endpoint, columns, formFields, icon }:
   };
 
   return (
-    <div className="space-y-10 animate-fade-in pb-24 max-w-[1500px] mx-auto px-4">
+    <div className="space-y-6 md:space-y-10 animate-fade-in pb-24 max-w-[1500px] mx-auto px-2 md:px-4">
       {/* Header Area */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 bg-white/40 backdrop-blur-3xl p-10 rounded-[3rem] border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.02)]">
-        <div className="flex items-center gap-8">
-           <div className="w-16 h-16 rounded-[1.5rem] bg-indigo-600 flex items-center justify-center text-white shadow-xl shadow-indigo-100">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 md:gap-10 bg-white/40 backdrop-blur-3xl p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.02)]">
+        <div className="flex items-center gap-4 md:gap-8">
+           <div className="w-12 h-12 md:w-16 md:h-16 rounded-[1rem] md:rounded-[1.5rem] bg-indigo-600 flex items-center justify-center text-white shadow-xl shadow-indigo-100 shrink-0">
               {icon}
            </div>
            <div>
-              <div className="flex items-center gap-3 mb-2 opacity-60">
-                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">RECORDS</span>
+              <div className="flex items-center gap-3 mb-1 md:mb-2 opacity-60">
+                 <span className="text-[8px] md:text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">RECORDS</span>
                  <span className="w-1 h-1 rounded-full bg-slate-300" />
               </div>
-              <h1 className="text-3xl font-semibold text-slate-900 tracking-tight leading-none">{title} Hub</h1>
-              <p className="text-sm font-medium text-slate-400 mt-2.5 leading-relaxed max-w-md">Monitor and manage your enterprise {title.toLowerCase()} repository with real-time sync.</p>
+              <h1 className="text-xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-none">{title} Hub</h1>
+              <p className="text-xs md:text-sm font-medium text-slate-400 mt-2 md:mt-2.5 leading-relaxed max-w-md hidden sm:block">Monitor and manage your enterprise {title.toLowerCase()} repository with real-time sync.</p>
            </div>
         </div>
-        <div className="flex items-center gap-4">
-           <div className="relative group">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+           <div className="relative group flex-1 sm:flex-none">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={18} />
               <input 
                 type="text" 
-                placeholder="Search repository..." 
-                className="w-72 h-14 bg-white/40 border border-white/60 rounded-2xl pl-12 pr-6 text-sm font-semibold text-slate-900 outline-none focus:bg-white focus:ring-4 focus:ring-indigo-50/30 transition-all backdrop-blur-md"
+                placeholder="Search..." 
+                className="w-full sm:w-72 h-12 md:h-14 bg-white/40 border border-white/60 rounded-2xl pl-12 pr-6 text-sm font-semibold text-slate-900 outline-none focus:bg-white focus:ring-4 focus:ring-indigo-50/30 transition-all backdrop-blur-md"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
            </div>
-           <Button className="h-14 px-8 rounded-2xl gap-3 text-[11px] font-bold uppercase tracking-widest bg-slate-900 text-white hover:bg-black shadow-xl shadow-slate-200 transition-all" onClick={openCreateForm}>
+           <Button className="h-12 md:h-14 px-6 md:px-8 rounded-2xl gap-3 text-[10px] md:text-[11px] font-bold uppercase tracking-widest bg-slate-900 text-white hover:bg-black shadow-xl shadow-slate-200 transition-all" onClick={openCreateForm}>
               <Plus size={18} />
               <span>Add Record</span>
            </Button>
@@ -220,17 +220,17 @@ export default function CrudPage({ title, endpoint, columns, formFields, icon }:
       </div>
 
       {/* Table Section */}
-      <div className="bg-white/40 backdrop-blur-3xl rounded-[3rem] border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-700">
+      <div className="bg-white/40 backdrop-blur-3xl rounded-[2rem] md:rounded-[3rem] border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-700">
         <div className="overflow-x-auto no-scrollbar">
-          <table className="w-full">
+          <table className="w-full min-w-[800px] lg:min-w-full">
             <thead>
               <tr className="border-b border-black/5 bg-white/20">
                 {columns.map((col: any) => (
-                  <th key={col.key} className="py-8 px-10 text-left text-[9px] font-bold text-slate-400 uppercase tracking-[0.25em] opacity-60">
+                  <th key={col.key} className="py-6 md:py-8 px-6 md:px-10 text-left text-[9px] font-bold text-slate-400 uppercase tracking-[0.25em] opacity-60">
                     {col.label}
                   </th>
                 ))}
-                <th className="py-8 px-10 text-right text-[9px] font-bold text-slate-400 uppercase tracking-[0.25em] opacity-60">Actions</th>
+                <th className="py-6 md:py-8 px-6 md:px-10 text-right text-[9px] font-bold text-slate-400 uppercase tracking-[0.25em] opacity-60">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-black/5">
@@ -238,20 +238,20 @@ export default function CrudPage({ title, endpoint, columns, formFields, icon }:
                 [...Array(5)].map((_, i) => (
                   <tr key={i}>
                     {columns.map((_, j) => (
-                      <td key={j} className="py-6 px-10"><div className="h-4 bg-slate-50 rounded animate-pulse" /></td>
+                      <td key={j} className="py-4 md:py-6 px-6 md:px-10"><div className="h-4 bg-slate-50 rounded animate-pulse" /></td>
                     ))}
                     <td />
                   </tr>
                 ))
               ) : items.length === 0 ? (
                 <tr>
-                  <td colSpan={columns.length + 1} className="text-center py-24">
+                  <td colSpan={columns.length + 1} className="text-center py-12 md:py-24">
                     <div className="flex flex-col items-center">
-                      <div className="w-16 h-16 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mb-6">
+                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mb-4 md:mb-6">
                         <Eye size={24} className="text-slate-300" />
                       </div>
-                      <p className="text-slate-400 font-bold text-sm uppercase tracking-widest">No results found</p>
-                      <button onClick={openCreateForm} className="mt-6 px-8 py-3 rounded-2xl bg-white border border-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest hover:border-indigo-100 hover:text-indigo-600 transition-all shadow-sm">
+                      <p className="text-slate-400 font-bold text-xs md:text-sm uppercase tracking-widest">No results found</p>
+                      <button onClick={openCreateForm} className="mt-4 md:mt-6 px-6 md:px-8 py-2 md:py-3 rounded-2xl bg-white border border-slate-100 text-slate-600 font-bold text-[10px] md:text-xs uppercase tracking-widest hover:border-indigo-100 hover:text-indigo-600 transition-all shadow-sm">
                         Add first {title.toLowerCase().slice(0, -1)}
                       </button>
                     </div>
@@ -261,22 +261,22 @@ export default function CrudPage({ title, endpoint, columns, formFields, icon }:
                 items.map((item) => (
                   <tr key={item.id as string} className="group hover:bg-slate-50/50 transition-all">
                     {columns.map((col) => (
-                      <td key={col.key} className="py-6 px-10">
+                      <td key={col.key} className="py-4 md:py-6 px-6 md:px-10">
                         {renderCell(item, col)}
                       </td>
                     ))}
-                    <td className="py-6 px-10">
+                    <td className="py-4 md:py-6 px-6 md:px-10">
                       <div className="flex items-center justify-end gap-2">
                         <button onClick={() => setShowDetail(item)}
-                          className="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-slate-100 text-slate-400 hover:text-indigo-600 hover:border-indigo-100 transition-all shadow-sm" title="View">
+                          className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center bg-white border border-slate-100 text-slate-400 hover:text-indigo-600 hover:border-indigo-100 transition-all shadow-sm" title="View">
                           <Eye size={18} />
                         </button>
                         <button onClick={() => openEditForm(item)}
-                          className="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-slate-100 text-slate-400 hover:text-emerald-600 hover:border-emerald-100 transition-all shadow-sm" title="Edit">
+                          className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center bg-white border border-slate-100 text-slate-400 hover:text-emerald-600 hover:border-emerald-100 transition-all shadow-sm" title="Edit">
                           <Pencil size={18} />
                         </button>
                         <button onClick={() => handleDelete(item.id as string)}
-                          className="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-slate-100 text-slate-400 hover:text-rose-600 hover:border-rose-100 transition-all shadow-sm">
+                          className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center bg-white border border-slate-100 text-slate-400 hover:text-rose-600 hover:border-rose-100 transition-all shadow-sm">
                           <Trash2 size={18} />
                         </button>
                       </div>
@@ -290,17 +290,17 @@ export default function CrudPage({ title, endpoint, columns, formFields, icon }:
 
         {/* Pagination Section */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between px-10 py-6 bg-slate-50/30 border-t border-slate-50">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+          <div className="flex flex-col sm:flex-row items-center justify-between px-6 md:px-10 py-4 md:py-6 bg-slate-50/30 border-t border-slate-50 gap-4">
+            <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">
               Page {page} of {totalPages} • {total} total
             </p>
             <div className="flex items-center gap-3">
               <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}
-                className="h-10 px-6 rounded-xl bg-white border border-slate-100 text-xs font-bold text-slate-600 hover:border-indigo-100 hover:text-indigo-600 disabled:opacity-30 transition-all shadow-sm">
+                className="h-9 md:h-10 px-4 md:px-6 rounded-xl bg-white border border-slate-100 text-[10px] md:text-xs font-bold text-slate-600 hover:border-indigo-100 hover:text-indigo-600 disabled:opacity-30 transition-all shadow-sm">
                 Previous
               </button>
               <button onClick={() => setPage(Math.min(totalPages, page + 1))} disabled={page === totalPages}
-                className="h-10 px-6 rounded-xl bg-white border border-slate-100 text-xs font-bold text-slate-600 hover:border-indigo-100 hover:text-indigo-600 disabled:opacity-30 transition-all shadow-sm">
+                className="h-9 md:h-10 px-4 md:px-6 rounded-xl bg-white border border-slate-100 text-[10px] md:text-xs font-bold text-slate-600 hover:border-indigo-100 hover:text-indigo-600 disabled:opacity-30 transition-all shadow-sm">
                 Next
               </button>
             </div>

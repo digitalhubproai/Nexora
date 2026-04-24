@@ -81,7 +81,7 @@ export default function LoginPage() {
              </div>
           </div>
 
-          <h2 className="text-7xl font-bold text-slate-900 tracking-tighter leading-[1.1] mb-10">
+          <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold text-slate-900 tracking-tighter leading-[1.1] mb-10">
             The future of<br />
             <span className="text-indigo-600">Enterprise</span><br />
             Management.

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { isAuthenticated } from "@/lib/api";
 import { useUIStore } from "@/store/use-ui-store";
+import { cn } from "@/lib/utils";
 import Sidebar from "@/components/layout/sidebar";
 import Header from "@/components/layout/header";
 import { CommandSearch } from "@/components/layout/command-search";
@@ -10,11 +11,16 @@ import { Toaster } from "@/components/layout/toaster";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { sidebarCollapsed } = useUIStore();
+  const { sidebarCollapsed, toggleSidebar } = useUIStore();
 
   useEffect(() => {
     if (!isAuthenticated()) {
       router.push("/login");
+    }
+
+    // Collapse sidebar on mobile by default
+    if (window.innerWidth < 1024) {
+      if (!sidebarCollapsed) toggleSidebar();
     }
   }, [router]);
 
@@ -22,12 +28,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <div className="min-h-screen flex bg-background">
       <CommandSearch />
       <Sidebar />
-      <div className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
-        sidebarCollapsed ? "ml-[80px]" : "ml-[280px]"
-      }`}>
+      <div className={cn(
+        "flex-1 flex flex-col transition-all duration-300 ease-in-out min-w-0",
+        sidebarCollapsed ? "lg:ml-[80px]" : "lg:ml-[280px]"
+      )}>
         <div className="flex-1 flex flex-col min-w-0">
         <Header />
-        <main className="flex-1 p-6 overflow-auto no-scrollbar">
+        <main className="flex-1 p-4 md:p-6 overflow-auto no-scrollbar">
           <Toaster />
           {children}
         </main>

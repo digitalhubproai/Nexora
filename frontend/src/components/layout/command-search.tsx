@@ -50,19 +50,19 @@ export function CommandSearch() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="relative w-full max-w-2xl bg-white/40 backdrop-blur-3xl border border-white/40 rounded-[2.5rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)] overflow-hidden"
+            className="relative w-full max-w-2xl bg-white/40 backdrop-blur-3xl border border-white/40 rounded-[1.5rem] md:rounded-[2.5rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)] overflow-hidden"
           >
-            <div className="flex items-center gap-5 px-8 py-7 border-b border-black/5">
-              <Search size={22} className="text-indigo-600" />
+            <div className="flex items-center gap-3 md:gap-5 px-5 md:px-8 py-5 md:py-7 border-b border-black/5">
+              <Search size={22} className="text-indigo-600 shrink-0" />
               <input 
                 autoFocus
                 type="text" 
-                placeholder="Find anything... (Pages, Records, Tasks)" 
-                className="flex-1 bg-transparent border-none outline-none text-slate-900 placeholder:text-slate-400 text-lg font-medium tracking-tight"
+                placeholder="Find anything..." 
+                className="flex-1 bg-transparent border-none outline-none text-slate-900 placeholder:text-slate-400 text-base md:text-lg font-medium tracking-tight"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
-              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-black/5 text-[9px] font-bold text-slate-400 border border-black/5">
+              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-black/5 text-[9px] font-bold text-slate-400 border border-black/5">
                 ESC
               </div>
             </div>
@@ -72,7 +72,7 @@ export function CommandSearch() {
                 <div className="space-y-6">
                   <div>
                     <div className="px-5 mb-4 text-[9px] font-bold text-slate-400 uppercase tracking-[0.3em] opacity-60">Global Shortcuts</div>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {QUICK_LINKS.map((link) => (
                         <button 
                           key={link.href}

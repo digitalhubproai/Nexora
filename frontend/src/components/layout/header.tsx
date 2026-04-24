@@ -1,10 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Bell, Search, LogOut, User, CheckCircle2, AlertCircle, Info, Clock, Command } from "lucide-react";
+import { Bell, Search, LogOut, User, CheckCircle2, AlertCircle, Info, Clock, Command, Menu } from "lucide-react";
 import { getStoredUser, clearTokens } from "@/lib/api";
 import { getInitials } from "@/lib/utils";
 import { useNotificationStore } from "@/store/use-notification-store";
+import { useUIStore } from "@/store/use-ui-store";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,6 +22,7 @@ export default function Header() {
   const pathname = usePathname();
   const [user, setUser] = useState<Record<string, string> | null>(null);
   const { notifications, unreadCount, markAllAsRead } = useNotificationStore();
+  const { toggleSidebar } = useUIStore();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -37,24 +39,33 @@ export default function Header() {
 
   return (
     <header className={cn(
-      "h-20 flex items-center justify-between px-10 sticky top-0 z-30 transition-all duration-700",
+      "h-20 flex items-center justify-between px-4 md:px-10 sticky top-0 z-30 transition-all duration-700",
       isScrolled ? "bg-white/40 backdrop-blur-3xl border-b border-white/20 shadow-[0_2px_24px_rgba(0,0,0,0.02)]" : "bg-transparent"
     )}>
       
-      {/* Left - Breadcrumbs */}
-      <div className="flex flex-col">
-        <div className="flex items-center gap-2 text-[9px] font-semibold text-slate-400 uppercase tracking-[0.25em] mb-1.5 opacity-60">
-          <span>Home</span>
-          <span>/</span>
-          <span className="text-indigo-500">{displayTitle}</span>
+      {/* Left - Breadcrumbs & Menu */}
+      <div className="flex items-center gap-4">
+        <button 
+          onClick={toggleSidebar}
+          className="lg:hidden w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:bg-white/60 hover:text-indigo-600 transition-all duration-500 border border-transparent hover:border-white/40 shadow-sm"
+        >
+          <Menu size={20} />
+        </button>
+
+        <div className="flex flex-col">
+          <div className="hidden sm:flex items-center gap-2 text-[9px] font-semibold text-slate-400 uppercase tracking-[0.25em] mb-1.5 opacity-60">
+            <span>Home</span>
+            <span>/</span>
+            <span className="text-indigo-500">{displayTitle}</span>
+          </div>
+          <h1 className="text-lg md:text-xl font-semibold text-slate-900 tracking-tight leading-none">{displayTitle}</h1>
         </div>
-        <h1 className="text-xl font-semibold text-slate-900 tracking-tight leading-none">{displayTitle}</h1>
       </div>
 
       {/* Right Actions */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-3 md:gap-6">
         {/* Search */}
-        <button className="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:bg-white/60 hover:text-indigo-600 transition-all duration-500 border border-transparent hover:border-white/40 shadow-sm">
+        <button className="hidden sm:flex w-10 h-10 rounded-xl items-center justify-center text-slate-400 hover:bg-white/60 hover:text-indigo-600 transition-all duration-500 border border-transparent hover:border-white/40 shadow-sm">
            <Search size={18} />
         </button>
 
