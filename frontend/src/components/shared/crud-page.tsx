@@ -185,74 +185,67 @@ export default function CrudPage({ title, endpoint, columns, formFields, icon }:
   };
 
   return (
-    <div className="space-y-6 md:space-y-10 animate-fade-in pb-24 max-w-[1500px] mx-auto px-2 md:px-4">
+    <div className="space-y-6 md:space-y-8 animate-fade-in pb-24 max-w-[1500px] mx-auto px-2 md:px-4">
       {/* Header Area */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 md:gap-10 bg-white/40 backdrop-blur-3xl p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.02)]">
-        <div className="flex items-center gap-4 md:gap-8">
-           <div className="w-12 h-12 md:w-16 md:h-16 rounded-[1rem] md:rounded-[1.5rem] bg-indigo-600 flex items-center justify-center text-white shadow-xl shadow-indigo-100 shrink-0">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-4 md:gap-6">
+           <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shrink-0">
               {icon}
            </div>
            <div>
-              <div className="flex items-center gap-3 mb-1 md:mb-2 opacity-60">
-                 <span className="text-[8px] md:text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">RECORDS</span>
-                 <span className="w-1 h-1 rounded-full bg-slate-300" />
-              </div>
-              <h1 className="text-xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-none">{title} Hub</h1>
-              <p className="text-xs md:text-sm font-medium text-slate-400 mt-2 md:mt-2.5 leading-relaxed max-w-md hidden sm:block">Monitor and manage your enterprise {title.toLowerCase()} repository with real-time sync.</p>
+              <h1 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">{title}</h1>
+              <p className="text-xs md:text-sm font-medium text-slate-500 mt-1 hidden sm:block">Manage your {title.toLowerCase()} records and details.</p>
            </div>
         </div>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
            <div className="relative group flex-1 sm:flex-none">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={18} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
               <input 
                 type="text" 
                 placeholder="Search..." 
-                className="w-full sm:w-72 h-12 md:h-14 bg-white/40 border border-white/60 rounded-2xl pl-12 pr-6 text-sm font-semibold text-slate-900 outline-none focus:bg-white focus:ring-4 focus:ring-indigo-50/30 transition-all backdrop-blur-md"
+                className="w-full sm:w-64 h-11 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-sm font-medium text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-indigo-50 transition-all"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
            </div>
-           <Button className="h-12 md:h-14 px-6 md:px-8 rounded-2xl gap-3 text-[10px] md:text-[11px] font-bold uppercase tracking-widest bg-slate-900 text-white hover:bg-black shadow-xl shadow-slate-200 transition-all" onClick={openCreateForm}>
-              <Plus size={18} />
-              <span>Add Record</span>
+           <Button className="h-11 px-6 rounded-xl gap-2 text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm transition-all" onClick={openCreateForm}>
+              <Plus size={16} />
+              <span>Add {title.slice(0, -1)}</span>
            </Button>
         </div>
       </div>
 
       {/* Table Section */}
-      <div className="bg-white/40 backdrop-blur-3xl rounded-[2rem] md:rounded-[3rem] border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-700">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="overflow-x-auto no-scrollbar">
           <table className="w-full min-w-[800px] lg:min-w-full">
             <thead>
-              <tr className="border-b border-black/5 bg-white/20">
+              <tr className="border-b border-slate-100 bg-slate-50/50">
                 {columns.map((col: any) => (
-                  <th key={col.key} className="py-6 md:py-8 px-6 md:px-10 text-left text-[9px] font-bold text-slate-400 uppercase tracking-[0.25em] opacity-60">
+                  <th key={col.key} className="py-4 px-6 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                     {col.label}
                   </th>
                 ))}
-                <th className="py-6 md:py-8 px-6 md:px-10 text-right text-[9px] font-bold text-slate-400 uppercase tracking-[0.25em] opacity-60">Actions</th>
+                <th className="py-4 px-6 text-right text-[10px] font-bold text-slate-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-black/5">
+            <tbody className="divide-y divide-slate-100">
               {loading ? (
                 [...Array(5)].map((_, i) => (
                   <tr key={i}>
                     {columns.map((_, j) => (
-                      <td key={j} className="py-4 md:py-6 px-6 md:px-10"><div className="h-4 bg-slate-50 rounded animate-pulse" /></td>
+                      <td key={j} className="py-4 px-6"><div className="h-4 bg-slate-50 rounded animate-pulse" /></td>
                     ))}
                     <td />
                   </tr>
                 ))
               ) : items.length === 0 ? (
                 <tr>
-                  <td colSpan={columns.length + 1} className="text-center py-12 md:py-24">
+                  <td colSpan={columns.length + 1} className="text-center py-12">
                     <div className="flex flex-col items-center">
-                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mb-4 md:mb-6">
-                        <Eye size={24} className="text-slate-300" />
-                      </div>
-                      <p className="text-slate-400 font-bold text-xs md:text-sm uppercase tracking-widest">No results found</p>
-                      <button onClick={openCreateForm} className="mt-4 md:mt-6 px-6 md:px-8 py-2 md:py-3 rounded-2xl bg-white border border-slate-100 text-slate-600 font-bold text-[10px] md:text-xs uppercase tracking-widest hover:border-indigo-100 hover:text-indigo-600 transition-all shadow-sm">
-                        Add first {title.toLowerCase().slice(0, -1)}
+                      <p className="text-slate-400 font-medium text-sm">No records found</p>
+                      <button onClick={openCreateForm} className="mt-4 text-indigo-600 font-bold text-xs hover:underline">
+                        Create your first record
                       </button>
                     </div>
                   </td>
@@ -261,23 +254,23 @@ export default function CrudPage({ title, endpoint, columns, formFields, icon }:
                 items.map((item) => (
                   <tr key={item.id as string} className="group hover:bg-slate-50/50 transition-all">
                     {columns.map((col) => (
-                      <td key={col.key} className="py-4 md:py-6 px-6 md:px-10">
+                      <td key={col.key} className="py-4 px-6">
                         {renderCell(item, col)}
                       </td>
                     ))}
-                    <td className="py-4 md:py-6 px-6 md:px-10">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="py-4 px-6">
+                      <div className="flex items-center justify-end gap-1.5">
                         <button onClick={() => setShowDetail(item)}
-                          className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center bg-white border border-slate-100 text-slate-400 hover:text-indigo-600 hover:border-indigo-100 transition-all shadow-sm" title="View">
-                          <Eye size={18} />
+                          className="p-2 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all" title="View">
+                          <Eye size={16} />
                         </button>
                         <button onClick={() => openEditForm(item)}
-                          className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center bg-white border border-slate-100 text-slate-400 hover:text-emerald-600 hover:border-emerald-100 transition-all shadow-sm" title="Edit">
-                          <Pencil size={18} />
+                          className="p-2 rounded-lg text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 transition-all" title="Edit">
+                          <Pencil size={16} />
                         </button>
                         <button onClick={() => handleDelete(item.id as string)}
-                          className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center bg-white border border-slate-100 text-slate-400 hover:text-rose-600 hover:border-rose-100 transition-all shadow-sm">
-                          <Trash2 size={18} />
+                          className="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-all" title="Delete">
+                          <Trash2 size={16} />
                         </button>
                       </div>
                     </td>
@@ -290,17 +283,17 @@ export default function CrudPage({ title, endpoint, columns, formFields, icon }:
 
         {/* Pagination Section */}
         {totalPages > 1 && (
-          <div className="flex flex-col sm:flex-row items-center justify-between px-6 md:px-10 py-4 md:py-6 bg-slate-50/30 border-t border-slate-50 gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-slate-50/50 border-t border-slate-100 gap-4">
             <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">
               Page {page} of {totalPages} • {total} total
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}
-                className="h-9 md:h-10 px-4 md:px-6 rounded-xl bg-white border border-slate-100 text-[10px] md:text-xs font-bold text-slate-600 hover:border-indigo-100 hover:text-indigo-600 disabled:opacity-30 transition-all shadow-sm">
+                className="h-9 px-4 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 disabled:opacity-50 transition-all">
                 Previous
               </button>
               <button onClick={() => setPage(Math.min(totalPages, page + 1))} disabled={page === totalPages}
-                className="h-9 md:h-10 px-4 md:px-6 rounded-xl bg-white border border-slate-100 text-[10px] md:text-xs font-bold text-slate-600 hover:border-indigo-100 hover:text-indigo-600 disabled:opacity-30 transition-all shadow-sm">
+                className="h-9 px-4 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 disabled:opacity-50 transition-all">
                 Next
               </button>
             </div>

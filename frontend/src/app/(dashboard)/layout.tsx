@@ -25,20 +25,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, [router]);
 
   return (
-    <div className="min-h-screen flex bg-background">
+    <div className="min-h-screen flex bg-slate-50">
       <CommandSearch />
       <Sidebar />
       <div className={cn(
-        "flex-1 flex flex-col transition-all duration-300 ease-in-out min-w-0",
-        sidebarCollapsed ? "lg:ml-[80px]" : "lg:ml-[280px]"
+        "flex-1 flex flex-col transition-all duration-300 min-w-0",
+        sidebarCollapsed ? "lg:ml-[70px]" : "lg:ml-[260px]"
       )}>
-        <div className="flex-1 flex flex-col min-w-0">
         <Header />
-        <main className="flex-1 p-4 md:p-6 overflow-auto no-scrollbar">
+        <main className="flex-1 p-4 md:p-8 overflow-auto">
           <Toaster />
           {children}
         </main>
-      </div>
       </div>
     </div>
   );

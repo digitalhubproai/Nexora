@@ -39,75 +39,62 @@ export default function Header() {
 
   return (
     <header className={cn(
-      "h-20 flex items-center justify-between px-4 md:px-10 sticky top-0 z-30 transition-all duration-700",
-      isScrolled ? "bg-white/40 backdrop-blur-3xl border-b border-white/20 shadow-[0_2px_24px_rgba(0,0,0,0.02)]" : "bg-transparent"
+      "h-16 flex items-center justify-between px-4 md:px-8 sticky top-0 z-30 transition-all border-b border-slate-200 bg-white",
+      isScrolled ? "shadow-sm" : "shadow-none"
     )}>
       
-      {/* Left - Breadcrumbs & Menu */}
+      {/* Left - Menu & Title */}
       <div className="flex items-center gap-4">
         <button 
           onClick={toggleSidebar}
-          className="lg:hidden w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:bg-white/60 hover:text-indigo-600 transition-all duration-500 border border-transparent hover:border-white/40 shadow-sm"
+          className="lg:hidden p-2 rounded-lg text-slate-400 hover:bg-slate-50 transition-all"
         >
           <Menu size={20} />
         </button>
 
-        <div className="flex flex-col">
-          <div className="hidden sm:flex items-center gap-2 text-[9px] font-semibold text-slate-400 uppercase tracking-[0.25em] mb-1.5 opacity-60">
-            <span>Home</span>
-            <span>/</span>
-            <span className="text-indigo-500">{displayTitle}</span>
-          </div>
-          <h1 className="text-lg md:text-xl font-semibold text-slate-900 tracking-tight leading-none">{displayTitle}</h1>
-        </div>
+        <h1 className="text-base md:text-lg font-bold text-slate-900 tracking-tight">{displayTitle}</h1>
       </div>
 
       {/* Right Actions */}
-      <div className="flex items-center gap-3 md:gap-6">
+      <div className="flex items-center gap-2 md:gap-4">
         {/* Search */}
-        <button className="hidden sm:flex w-10 h-10 rounded-xl items-center justify-center text-slate-400 hover:bg-white/60 hover:text-indigo-600 transition-all duration-500 border border-transparent hover:border-white/40 shadow-sm">
+        <button className="hidden sm:flex p-2 rounded-lg text-slate-400 hover:bg-slate-50 transition-all">
            <Search size={18} />
         </button>
 
         {/* Notifications */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="relative w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:bg-white/60 hover:text-indigo-600 transition-all duration-500 border border-transparent hover:border-white/40 shadow-sm">
+            <button className="relative p-2 rounded-lg text-slate-400 hover:bg-slate-50 transition-all">
               <Bell size={18} />
               {unreadCount > 0 && (
-                <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-indigo-600 border-2 border-white" />
+                <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-indigo-600 border-2 border-white" />
               )}
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80 p-0 rounded-3xl shadow-2xl border-white/20 overflow-hidden bg-white/70 backdrop-blur-3xl">
-             <div className="px-6 py-5 border-b border-black/5 flex items-center justify-between bg-white/20">
-                <h3 className="text-sm font-semibold text-slate-900">Notifications</h3>
-                <button onClick={markAllAsRead} className="text-[10px] font-bold text-indigo-600 hover:text-indigo-700 uppercase tracking-widest">Clear All</button>
+          <DropdownMenuContent align="end" className="w-80 p-0 rounded-xl shadow-xl border-slate-200 overflow-hidden bg-white">
+             <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Notifications</h3>
+                <button onClick={markAllAsRead} className="text-[10px] font-bold text-indigo-600 hover:underline">Clear All</button>
              </div>
-             <div className="max-h-[350px] overflow-y-auto no-scrollbar p-2">
+             <div className="max-h-[350px] overflow-y-auto no-scrollbar">
                 {notifications.length === 0 ? (
-                  <div className="py-12 text-center">
+                  <div className="py-8 text-center">
                     <p className="text-xs font-medium text-slate-400">No new notifications</p>
                   </div>
                 ) : (
                   notifications.map(n => (
                     <div key={n.id} className={cn(
-                      "px-4 py-4 rounded-2xl mb-1 last:mb-0 hover:bg-white/40 transition-colors border border-transparent hover:border-white/60",
-                      !n.read && "bg-white/20 border-white/40 shadow-sm"
+                      "px-4 py-3 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition-colors",
+                      !n.read && "bg-indigo-50/30"
                     )}>
-                      <div className="flex gap-4">
-                         <div className={cn(
-                           "w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-sm",
-                           n.type === 'success' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'
-                         )}>
-                           {n.type === 'success' ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
+                      <div className="flex gap-3">
+                         <div className="shrink-0 mt-0.5">
+                           {n.type === 'success' ? <CheckCircle2 size={14} className="text-emerald-500" /> : <AlertCircle size={14} className="text-rose-500" />}
                          </div>
                          <div className="flex-1 min-w-0">
-                            <p className="text-[13px] font-semibold text-slate-900 leading-snug">{n.title}</p>
-                            <p className="text-xs text-slate-500 mt-1 line-clamp-2">{n.message}</p>
-                            <p className="text-[9px] font-medium text-slate-300 mt-2 flex items-center gap-1 uppercase tracking-widest">
-                              <Clock size={10} /> {n.time}
-                            </p>
+                            <p className="text-xs font-bold text-slate-900 leading-snug">{n.title}</p>
+                            <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">{n.message}</p>
                          </div>
                       </div>
                     </div>
@@ -116,39 +103,37 @@ export default function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <div className="w-px h-6 bg-black/5 mx-1" />
+        <div className="w-px h-6 bg-slate-200 mx-1 hidden sm:block" />
 
         {/* Profile */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-3 pl-1 pr-3 py-1 rounded-2xl bg-white/40 border border-white/60 hover:bg-white/60 transition-all duration-500 shadow-sm">
-               <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-[10px] font-bold text-white shadow-lg shadow-indigo-200">
+            <button className="flex items-center gap-2 p-1 rounded-lg hover:bg-slate-50 transition-all">
+               <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-[10px] font-bold text-white shadow-sm">
                  {getInitials(userName)}
                </div>
-               <div className="hidden sm:flex flex-col items-start">
-                  <p className="text-[12px] font-semibold text-slate-900 leading-none">{user?.first_name || "User"}</p>
-                  <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest mt-1 opacity-60">{user?.role || "Staff"}</p>
+               <div className="hidden md:flex flex-col items-start">
+                  <p className="text-xs font-bold text-slate-900 leading-none">{user?.first_name || "User"}</p>
+                  <p className="text-[10px] font-medium text-slate-400 mt-1 uppercase tracking-widest">{user?.role || "Staff"}</p>
                </div>
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-64 p-2 rounded-3xl shadow-2xl border-white/20 bg-white/70 backdrop-blur-3xl">
-            <div className="px-4 py-3 bg-white/20 rounded-2xl mb-2 border border-white/40">
-               <p className="text-sm font-semibold text-slate-900">{userName}</p>
-               <p className="text-[10px] font-medium text-slate-400 truncate mt-1">{user?.email}</p>
+          <DropdownMenuContent align="end" className="w-56 p-2 rounded-xl shadow-xl border-slate-200 bg-white">
+            <div className="px-3 py-2 bg-slate-50 rounded-lg mb-1">
+               <p className="text-xs font-bold text-slate-900">{userName}</p>
+               <p className="text-[10px] text-slate-500 truncate mt-0.5">{user?.email}</p>
             </div>
-            <div className="space-y-1">
-               <DropdownMenuItem className="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium text-slate-600 hover:bg-white/60 hover:text-indigo-600 cursor-pointer transition-all border border-transparent hover:border-white/60">
-                  <User size={16} />
-                  <span>Account Settings</span>
-               </DropdownMenuItem>
-               <DropdownMenuItem 
-                 onClick={() => { clearTokens(); window.location.href = "/login"; }}
-                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50/50 cursor-pointer transition-all"
-               >
-                  <LogOut size={16} />
-                  <span>Secure Signout</span>
-               </DropdownMenuItem>
-            </div>
+            <DropdownMenuItem className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-100 cursor-pointer">
+               <User size={14} />
+               <span>Settings</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={() => { clearTokens(); window.location.href = "/login"; }}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold text-rose-600 hover:bg-rose-50 cursor-pointer"
+            >
+               <LogOut size={14} />
+               <span>Sign Out</span>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

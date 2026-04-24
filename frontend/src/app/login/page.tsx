@@ -26,11 +26,11 @@ export default function LoginPage() {
     try {
       if (isRegister) {
         const res = await register(email, password, firstName, lastName, "admin");
-        showToast(`Welcome! Employee ID: ${res.user.employee_id}`, "success");
-        setTimeout(() => router.push("/dashboard"), 2000);
+        showToast("Account created successfully", "success");
+        setTimeout(() => router.push("/dashboard"), 1500);
       } else {
         await login(email, password);
-        showToast("Welcome back to Nexora", "success");
+        showToast("Welcome back", "success");
         router.push("/dashboard");
       }
     } catch (err: unknown) {
@@ -41,154 +41,107 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-white overflow-hidden">
-      {/* Left: Branding Section (Awesome Minimalist) */}
-      <div className="hidden lg:flex w-[60%] bg-[#FDFDFF] relative items-center justify-center p-24 overflow-hidden border-r border-slate-100">
-        {/* Animated Background Accents */}
-        <div className="absolute inset-0">
-           <motion.div 
-             animate={{ 
-               scale: [1, 1.2, 1],
-               rotate: [0, 90, 0],
-               opacity: [0.3, 0.5, 0.3]
-             }}
-             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-             className="absolute top-[-20%] right-[-10%] w-[80%] h-[80%] bg-indigo-50 rounded-full blur-[120px]" 
-           />
-           <motion.div 
-             animate={{ 
-               scale: [1, 1.3, 1],
-               rotate: [0, -90, 0],
-               opacity: [0.2, 0.4, 0.2]
-             }}
-             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-             className="absolute bottom-[-20%] left-[-10%] w-[80%] h-[80%] bg-emerald-50 rounded-full blur-[120px]" 
-           />
+    <div className="min-h-screen flex bg-slate-50 items-center justify-center p-4">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-[450px] bg-white p-8 md:p-12 rounded-2xl border border-slate-200 shadow-sm"
+      >
+        <div className="flex flex-col items-center mb-10 text-center">
+           <div className="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg mb-4">
+              <Zap size={24} className="text-white fill-white" />
+           </div>
+           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+             {isRegister ? "Create an account" : "Sign in to Nexora"}
+           </h1>
+           <p className="text-sm text-slate-500 mt-2">
+             {isRegister ? "Enter your details to get started" : "Welcome back! Please enter your details"}
+           </p>
         </div>
 
-        <motion.div 
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="relative z-10 max-w-2xl"
-        >
-          <div className="flex items-center gap-4 mb-12">
-             <div className="w-16 h-16 rounded-[2rem] bg-indigo-600 flex items-center justify-center shadow-2xl shadow-indigo-200">
-                <Zap size={32} className="text-white fill-white" />
-             </div>
-             <div className="flex flex-col">
-                <span className="text-2xl font-bold tracking-tight text-slate-900">Nexora</span>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.4em] mt-1">Enterprise OS</span>
-             </div>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {isRegister && (
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-xs font-bold text-slate-700">First Name</Label>
+                <Input 
+                  className="h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white" 
+                  placeholder="First name" 
+                  value={firstName} 
+                  onChange={(e) => setFirstName(e.target.value)} 
+                  required={isRegister} 
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs font-bold text-slate-700">Last Name</Label>
+                <Input 
+                  className="h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white" 
+                  placeholder="Last name" 
+                  value={lastName} 
+                  onChange={(e) => setLastName(e.target.value)} 
+                  required={isRegister} 
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-2">
+            <Label className="text-xs font-bold text-slate-700">Email Address</Label>
+            <div className="relative">
+              <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Input 
+                className="h-12 pl-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white" 
+                placeholder="email@example.com" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                required 
+              />
+            </div>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold text-slate-900 tracking-tighter leading-[1.1] mb-10">
-            The future of<br />
-            <span className="text-indigo-600">Enterprise</span><br />
-            Management.
-          </h2>
+          <div className="space-y-2">
+            <div className="flex justify-between items-center px-1">
+              <Label className="text-xs font-bold text-slate-700">Password</Label>
+              {!isRegister && <button type="button" className="text-xs text-indigo-600 hover:underline">Forgot password?</button>}
+            </div>
+            <div className="relative">
+              <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Input 
+                type="password" 
+                className="h-12 pl-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white" 
+                placeholder="••••••••" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                required 
+              />
+            </div>
+          </div>
 
-          <p className="text-xl font-medium text-slate-500 leading-relaxed mb-16 max-w-lg">
-            A unified command center designed for the next generation of logistics, finance, and human resources.
+          <Button 
+            type="submit" 
+            className="w-full h-12 mt-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-sm transition-all" 
+            disabled={loading}
+          >
+            {loading ? (
+              <Loader2 className="h-5 w-5 animate-spin mx-auto" />
+            ) : (
+              <span>{isRegister ? "Create account" : "Sign in"}</span>
+            )}
+          </Button>
+        </form>
+
+        <div className="mt-8 pt-6 border-t border-slate-100 text-center">
+          <p className="text-sm text-slate-500">
+            {isRegister ? "Already have an account?" : "Don't have an account?"}{" "}
+            <button 
+              className="text-indigo-600 font-bold hover:underline" 
+              onClick={() => setIsRegister(!isRegister)}
+            >
+              {isRegister ? "Sign in" : "Sign up"}
+            </button>
           </p>
-
-          <div className="grid grid-cols-2 gap-10">
-             {[
-               { title: "Smart Logic", desc: "Automated departmental workflows" },
-               { title: "Real-time AI", desc: "Live business intelligence feeds" }
-             ].map((f, i) => (
-               <div key={i} className="space-y-3">
-                  <div className="flex items-center gap-3">
-                     <CheckCircle2 size={20} className="text-emerald-500" />
-                     <h4 className="text-base font-bold text-slate-900">{f.title}</h4>
-                  </div>
-                  <p className="text-sm font-medium text-slate-400 leading-relaxed">{f.desc}</p>
-               </div>
-             ))}
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Right: Form Section */}
-      <div className="w-full lg:w-[40%] flex flex-col items-center justify-center p-8 lg:p-16 z-10 bg-white">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="w-full max-w-[400px]"
-        >
-          <div className="mb-12">
-            <h3 className="text-3xl font-bold text-slate-900 tracking-tight">
-              {isRegister ? "Join Nexora" : "Access Console"}
-            </h3>
-            <p className="text-sm font-medium text-slate-500 mt-2">
-              {isRegister ? "Create your departmental identity." : "Please enter your identity credentials."}
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <AnimatePresence mode="wait">
-              {isRegister && (
-                <motion.div 
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="grid grid-cols-2 gap-4 overflow-hidden"
-                >
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">First Name</Label>
-                    <Input className="h-12 rounded-xl bg-slate-50 border-slate-100 focus:bg-white focus:ring-4 focus:ring-indigo-50/50 transition-all" placeholder="John" value={firstName} onChange={(e) => setFirstName(e.target.value)} required={isRegister} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Last Name</Label>
-                    <Input className="h-12 rounded-xl bg-slate-50 border-slate-100 focus:bg-white focus:ring-4 focus:ring-indigo-50/50 transition-all" placeholder="Doe" value={lastName} onChange={(e) => setLastName(e.target.value)} required={isRegister} />
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <div className="space-y-2">
-              <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Email or ID</Label>
-              <div className="relative">
-                <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                <Input className="h-14 pl-12 rounded-xl bg-slate-50 border-slate-100 focus:bg-white focus:ring-4 focus:ring-indigo-50/50 transition-all" placeholder="name@company.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between items-center px-1">
-                <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Password</Label>
-                {!isRegister && <button type="button" className="text-[10px] font-bold text-indigo-600">Recovery</button>}
-              </div>
-              <div className="relative">
-                <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                <Input type="password" className="h-14 pl-12 rounded-xl bg-slate-50 border-slate-100 focus:bg-white focus:ring-4 focus:ring-indigo-50/50 transition-all" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
-              </div>
-            </div>
-
-            <Button type="submit" className="w-full h-16 mt-6 rounded-2xl bg-slate-900 hover:bg-black text-white font-bold tracking-tight shadow-xl shadow-slate-200 transition-all" disabled={loading}>
-              {loading ? (
-                <Loader2 className="h-6 w-6 animate-spin text-white" />
-              ) : (
-                <div className="flex items-center justify-center gap-3">
-                  <span>{isRegister ? "Confirm Identity" : "Launch Console"}</span>
-                  <ArrowRight size={20} />
-                </div>
-              )}
-            </Button>
-          </form>
-
-          <div className="mt-10 pt-10 border-t border-slate-50 text-center">
-            <p className="text-sm font-medium text-slate-500">
-              {isRegister ? "Part of the team?" : "Need a workspace?"}{" "}
-              <button 
-                className="text-indigo-600 font-bold hover:underline" 
-                onClick={() => setIsRegister(!isRegister)}
-              >
-                {isRegister ? "Access now" : "Request access"}
-              </button>
-            </p>
-          </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
