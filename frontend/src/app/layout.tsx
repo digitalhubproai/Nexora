@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains" });
 
 export const metadata: Metadata = {
-  title: "Nexora — CRM & ERP Platform",
+  title: "Nexora",
   description: "Complete enterprise CRM and ERP system for managing your business operations.",
 };
 
